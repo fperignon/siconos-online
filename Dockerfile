@@ -45,19 +45,19 @@ RUN conda remove libgfortran && \
     conda install libgcc --force
 RUN \
   git clone https://github.com/tpaviot/oce.git && \
-  git clone https://github.com/tpaviot/pythonocc-core.git &&
+  git clone https://github.com/tpaviot/pythonocc-core.git && \
   mkdir build && \
   cd build && \
-  mkdir oce-last pythonocc &&
-  cd oce-last &&
-  cmake ../../oce -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release &&
-  make -j 4 &&
-  make install &&
-  cd ../pythonocc &&
-  cmake ../../pythonocc-core -DCMAKE_BUILD_TYPE=Release &&
-  make install &&
-  cd &&
+  mkdir oce-last pythonocc && \
+  cd oce-last && \
+  cmake ../../oce -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release && \
+  make -j 4 && \
+  make install && \
+  cd ../pythonocc && \
+  cmake ../../pythonocc-core -DCMAKE_BUILD_TYPE=Release && \
+  make install
 RUN \
+  cd && \
   git clone https://github.com/siconos/siconos.git && \
   cd build && \
   mkdir siconos && \

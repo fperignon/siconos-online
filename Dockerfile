@@ -38,17 +38,31 @@ RUN \
   libglapi-mesa \
   libfreetype6-dev \
   doxygen \
-  python-sphinx
+  python-sphinx \
+  libbullet-dev
 RUN mkdir -p /usr/local
 RUN conda remove libgfortran && \
     conda install libgcc --force
 RUN \
-  git clone https://github.com/siconos/siconos.git && \
+  git clone https://github.com/tpaviot/oce.git && \
+  git clone https://github.com/tpaviot/pythonocc-core.git &&
   mkdir build && \
+  cd build && \
+  mkdir oce-last pythonocc &&
+  cd oce-last &&
+  cmake ../../oce -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release &&
+  make -j 4 &&
+  make install &&
+  cd ../pythonocc &&
+  cmake ../../pythonocc-core -DCMAKE_BUILD_TYPE=Release &&
+  make install &&
+  cd &&
+RUN \
+  git clone https://github.com/siconos/siconos.git && \
   cd build && \
   mkdir siconos && \
   cd siconos && \
-  cmake ../../siconos -DWITH_DOXY2SWIG=ON -DDEV_MODE=ON -DCMAKE_BUILD_TYPE=Debug -DWITH_MECHANISMS=OFF -DWITH_DOCUMENTATION=ON && \
+  cmake ../../siconos -DWITH_DOXY2SWIG=ON -DDEV_MODE=ON -DCMAKE_BUILD_TYPE=Debug -DWITH_MECHANISMS=ON -DWITH_DOCUMENTATION=ON -DWITH_BULLET=ON&& \
   make -j 4 && \
   make install
 

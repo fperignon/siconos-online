@@ -30,7 +30,8 @@ RUN \
   wget \
   bash \
   libbullet-dev \
-  python-h5py
+  python-h5py \
+  doxygen
 RUN mkdir -p /usr/local
 RUN conda remove libgfortran && \
     conda install libgcc --force
